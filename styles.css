@@ -791,6 +791,7 @@ body {
   display: flex;
   flex-direction: column;
   flex: 1;
+  overflow: hidden;
 }
 
 /* Math cards styles */
@@ -876,7 +877,8 @@ body {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
   gap: 12px;
-  max-height: 250px;
+  flex: 1;
+  min-height: 150px;
   overflow-y: auto;
   padding-right: 4px;
 }
