@@ -338,7 +338,7 @@ body {
   padding: 24px;
   gap: 24px;
   overflow: hidden;
-  height: calc(100% - 60px); /* Leaves space for collapsed console */
+  height: 100%;
 }
 
 .workspace-panel {
@@ -1224,20 +1224,18 @@ body {
    Console Output drawer component
    ========================================================================== */
 .console-drawer {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 0;
+  position: relative;
   background-color: #fff8f6;
   border-top: 1px solid var(--border-color);
   display: flex;
   flex-direction: column;
   z-index: 5;
   transition: height 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  flex-shrink: 0;
 }
 
 .console-drawer.collapsed {
-  height: 42px;
+  height: 72px; /* 42px toggle handle + 30px for exactly 1 line of logs! */
 }
 
 .console-drawer.expanded {
@@ -1309,8 +1307,13 @@ body {
 .console-body {
   flex: 1;
   overflow: auto;
-  padding: 16px 24px;
+  padding: 12px 24px;
   background: #fdfdfd;
+}
+
+.console-drawer.collapsed .console-body {
+  padding: 4px 24px 6px 24px;
+  overflow: hidden;
 }
 
 .console-body pre {
