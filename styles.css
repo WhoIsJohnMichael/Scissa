@@ -798,6 +798,7 @@ body {
 .math-details-card {
   background: rgba(255, 255, 255, 0.65);
   border-color: rgba(60, 164, 168, 0.15);
+  flex-shrink: 0;
 }
 
 .math-title {
@@ -861,6 +862,7 @@ body {
   align-items: center;
   justify-content: space-between;
   margin-bottom: 12px;
+  flex-shrink: 0;
 }
 
 .segment-map-header h4 {
@@ -878,7 +880,9 @@ body {
   grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
   gap: 12px;
   flex: 1;
-  min-height: 150px;
+  min-height: 0;
+  align-items: start;
+  align-content: start;
   overflow-y: auto;
   padding-right: 4px;
 }
@@ -1008,6 +1012,7 @@ body {
   display: flex;
   flex-direction: column;
   gap: 6px;
+  align-items: stretch;
 }
 
 .segment-map-grid.list-view .segment-blueprint-card {
@@ -1063,6 +1068,7 @@ body {
 .actions-card {
   padding: 16px 20px;
   border-color: rgba(255, 255, 255, 0.08);
+  flex-shrink: 0;
 }
 
 .execution-state-panel {
