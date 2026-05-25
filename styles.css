@@ -1919,98 +1919,17 @@ body {
 }
 
 /* ==========================================================================
-   Floating Heart Donation Overlay Widget
+   Header Heart Donation Button
    ========================================================================== */
-.donate-float-widget {
-  position: fixed;
-  bottom: 24px;
-  right: 24px;
-  z-index: 90;
-  display: flex;
-  align-items: center;
-  gap: 0;
-  cursor: pointer;
+.btn-donate-heart {
+  color: var(--accent-purple);
   transition: var(--transition-smooth);
 }
 
-.donate-float-widget:hover {
-  transform: translateY(-3px);
-}
-
-.donate-float-btn {
-  width: 52px;
-  height: 52px;
-  border-radius: 50%;
-  background: linear-gradient(135deg, #ff5e5b 0%, #e11d48 100%);
-  border: none;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  box-shadow: 0 4px 16px rgba(225, 29, 72, 0.3), 0 2px 6px rgba(0, 0, 0, 0.1);
-  transition: var(--transition-smooth);
-  animation: heartPulse 2.5s ease-in-out infinite;
-  position: relative;
-}
-
-.donate-float-btn:hover {
-  transform: scale(1.1);
-  box-shadow: 0 6px 24px rgba(225, 29, 72, 0.4), 0 3px 10px rgba(0, 0, 0, 0.12);
-}
-
-.donate-float-btn:active {
-  transform: scale(0.95);
-}
-
-.donate-float-btn svg {
-  width: 24px;
-  height: 24px;
-  color: #fff;
-  fill: #fff;
-  filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.15));
-}
-
-/* Tooltip label on hover */
-.donate-float-label {
-  position: absolute;
-  right: 60px;
-  background: #1a1a2e;
-  color: #fff;
-  font-family: var(--font-sans);
-  font-size: 0.72rem;
-  font-weight: 600;
-  padding: 6px 12px;
-  border-radius: 8px;
-  white-space: nowrap;
-  opacity: 0;
-  pointer-events: none;
-  transform: translateX(8px);
-  transition: all 0.2s ease-out;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-}
-
-.donate-float-label::after {
-  content: '';
-  position: absolute;
-  right: -5px;
-  top: 50%;
-  transform: translateY(-50%);
-  width: 0;
-  height: 0;
-  border-left: 6px solid #1a1a2e;
-  border-top: 5px solid transparent;
-  border-bottom: 5px solid transparent;
-}
-
-.donate-float-widget:hover .donate-float-label {
-  opacity: 1;
-  transform: translateX(0);
-}
-
-@keyframes heartPulse {
-  0%, 100% { transform: scale(1); }
-  15% { transform: scale(1.08); }
-  30% { transform: scale(1); }
-  45% { transform: scale(1.05); }
-  60% { transform: scale(1); }
+.btn-donate-heart:hover {
+  color: #ffffff !important;
+  background: linear-gradient(135deg, #ff5e5b 0%, #e11d48 100%) !important;
+  border-color: transparent !important;
+  box-shadow: 0 4px 12px rgba(255, 94, 91, 0.3);
+  transform: scale(1.08);
 }

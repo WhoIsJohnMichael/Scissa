@@ -432,8 +432,8 @@ function setupEventListeners() {
     window.api.openLink('https://ko-fi.com/atlastdev'); // Atlastdev Ko-fi donation link
   });
   
-  // Floating Heart Overlay Widget
-  document.getElementById('btn-donate-float').addEventListener('click', () => {
+  // Header Heart Donation Button
+  document.getElementById('btn-donate-header').addEventListener('click', () => {
     window.api.openLink('https://ko-fi.com/atlastdev');
   });
 
