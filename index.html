@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Scissa - Everyday Video Splitter</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;500;600;700;800&family=Quicksand:wght@500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+  <link rel="icon" type="image/png" href="rss/image.png">
+</head>
+<body>
+  <div class="landing-container">
+    <!-- Header/Navigation -->
+    <header class="navbar">
+      <div class="logo-area">
+        <img class="logo-img" src="rss/image.png" alt="Scissa Logo">
+        <div class="logo-text">
+          <h1>SCISSA</h1>
+          <span>Everyday video splitter</span>
+        </div>
+      </div>
+      <nav class="nav-links">
+        <a href="#features">Features</a>
+        <a href="#how-it-works">How it Works</a>
+        <a href="https://github.com/WhoIsJohnMichael/Scissa" class="github-link" target="_blank">
+          <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
+          GitHub
+        </a>
+      </nav>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+      <div class="hero-content">
+        <span class="badge">🚀 100% Offline & Private</span>
+        <h2 class="hero-title">Everyday Video Splitting, <br><span class="gradient-text">Beautifully Simplified.</span></h2>
+        <p class="hero-subtitle">
+          Scissa is a premium, high-performance desktop app that lets you split large videos by file size or duration. Powered offline by FFmpeg with a gorgeous, bubbly UI.
+        </p>
+        <div class="hero-actions">
+          <a href="https://github.com/WhoIsJohnMichael/Scissa/releases/latest/download/Scissa-Setup.exe" class="btn btn-primary">
+            <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg>
+            Download for Windows
+          </a>
+          <a href="#features" class="btn btn-secondary">Learn More</a>
+        </div>
+      </div>
+      <div class="hero-preview">
+        <!-- Interactive UI Preview Card -->
+        <div class="preview-window">
+          <div class="window-header">
+            <div class="window-dots">
+              <span class="dot red"></span>
+              <span class="dot yellow"></span>
+              <span class="dot green"></span>
+            </div>
+            <div class="window-title">Scissa — Everyday Video Splitter</div>
+          </div>
+          <div class="window-body">
+            <div class="mock-sidebar">
+              <div class="mock-logo">✂️ Scissa</div>
+              <div class="mock-nav-item active">Dashboard</div>
+              <div class="mock-nav-item">Settings</div>
+              <div class="mock-nav-item">Privacy</div>
+            </div>
+            <div class="mock-content">
+              <div class="mock-dropzone">
+                <span class="dropzone-emoji">🎬</span>
+                <h3>Drag & Drop video file here</h3>
+                <p>MP4, MOV, MKV, AVI, and more</p>
+              </div>
+              <div class="mock-grid">
+                <div class="mock-card">
+                  <span class="card-title">SPLIT BY SIZE</span>
+                  <div class="mock-slider-val">80 MB</div>
+                  <div class="mock-slider-bar"></div>
+                </div>
+                <div class="mock-card">
+                  <span class="card-title">SPLIT BY DURATION</span>
+                  <div class="mock-slider-val">5 Mins</div>
+                  <div class="mock-slider-bar"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Features Section -->
+    <section id="features" class="features-section">
+      <div class="section-header">
+        <h2>Designed to keep you in flow</h2>
+        <p>A fast, private, and beautifully responsive splitting workflow built for everyday creators.</p>
+      </div>
+      <div class="features-grid">
+        <div class="feature-card">
+          <div class="feature-icon">🛡️</div>
+          <h3>100% Local & Offline</h3>
+          <p>Your video never touches a cloud server. Scissa runs completely sandboxed on your local CPU for maximum privacy.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">⚡</div>
+          <h3>Lightning Fast Splits</h3>
+          <p>Powered directly by your local FFmpeg binary. Split huge gigabyte-sized videos in seconds without re-encoding quality loss.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">🫧</div>
+          <h3>Bubbly Responsive Design</h3>
+          <p>Featuring a gorgeous glassmorphism dashboard, harmonized color schemes, and playful rounded aesthetics.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">📐</div>
+          <h3>Smart Math Engine</h3>
+          <p>Intelligent calculators estimate exactly how many segments you'll get, showing a visual mapping before you commit.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- How It Works Section -->
+    <section id="how-it-works" class="how-it-works">
+      <div class="section-header">
+        <h2>Split videos in 3 simple steps</h2>
+      </div>
+      <div class="steps-grid">
+        <div class="step-card">
+          <span class="step-num">01</span>
+          <h3>Import Video</h3>
+          <p>Drag and drop your video file. Scissa automatically probes metadata like codec, resolution, and length.</p>
+        </div>
+        <div class="step-card">
+          <span class="step-num">02</span>
+          <h3>Set Split Targets</h3>
+          <p>Choose whether to split by target segment size (e.g., 80MB Discord limit) or target duration (e.g., 5-minute chunks).</p>
+        </div>
+        <div class="step-card">
+          <span class="step-num">03</span>
+          <h3>Start Splitting</h3>
+          <p>Hit "Start Split" and watch the real-time progress update. Open the output directory to get your segments!</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta-section">
+      <div class="cta-card">
+        <h2>Ready to split some videos?</h2>
+        <p>Get the latest version of Scissa for Windows completely free.</p>
+        <a href="https://github.com/WhoIsJohnMichael/Scissa/releases/latest/download/Scissa-Setup.exe" class="btn btn-primary">
+          <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg>
+          Download Scissa
+        </a>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <p>&copy; 2026 Scissa. Built by <a href="https://github.com/WhoIsJohnMichael" target="_blank">WhoIsJohnMichael</a> for <a href="https://ko-fi.com/atlastdev" target="_blank">atlastdev</a>.</p>
+      <p class="footer-sub">All rights reserved. Released under the MIT License.</p>
+    </footer>
+  </div>
+</body>
+</html>
