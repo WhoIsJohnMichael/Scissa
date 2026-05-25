@@ -1,0 +1,52 @@
+{
+  "name": "scissa",
+  "version": "1.0.0",
+  "description": "Everyday video splitter",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron .",
+    "pack": "electron-builder --dir",
+    "dist": "electron-builder"
+  },
+  "keywords": [
+    "ffmpeg",
+    "video",
+    "splitter",
+    "electron"
+  ],
+  "author": "WhoIsJohnMichael",
+  "license": "MIT",
+  "dependencies": {},
+  "devDependencies": {
+    "electron": "^42.2.0",
+    "electron-builder": "^26.8.1"
+  },
+  "build": {
+    "appId": "com.scissa.app",
+    "productName": "Scissa",
+    "directories": {
+      "output": "dist"
+    },
+    "win": {
+      "target": [
+        "nsis",
+        "appx"
+      ],
+      "icon": "rss/image.png"
+    },
+    "nsis": {
+      "oneClick": true,
+      "allowToChangeInstallationDirectory": false,
+      "createDesktopShortcut": true,
+      "createStartMenuShortcut": true
+    },
+    "appx": {
+      "publisher": "CN=YOUR-MICROSOFT-PUBLISHER-ID",
+      "identityName": "ScissaEverydayVideoSplitter",
+      "publisherDisplayName": "Your Publisher Name",
+      "languages": [
+        "en-US"
+      ]
+    }
+  }
+}

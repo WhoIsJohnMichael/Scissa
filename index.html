@@ -1,0 +1,644 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Scissa</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;500;600;700;800&family=Quicksand:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="app-container">
+    
+    <!-- Top Header -->
+    <header class="app-header">
+      <div class="logo-area">
+        <img class="header-logo-img" src="rss/image.png" alt="WhoIsJohnMichael Logo">
+        <div class="logo-text">
+          <h1>SCISSA</h1>
+          <span>Everyday video splitter</span>
+        </div>
+      </div>
+
+      <!-- Quick Environment Settings -->
+      <div class="header-actions">
+        <div class="advanced-mode-toggle">
+          <span class="toggle-label">Advanced Mode</span>
+          <label class="switch">
+            <input type="checkbox" id="toggle-advanced-mode">
+            <span class="switch-slider"></span>
+          </label>
+        </div>
+
+        <div id="ffmpeg-status-badge" class="badge badge-warning">
+          <span class="badge-dot"></span>
+          FFmpeg: Not Configured
+        </div>
+        <button id="btn-settings-toggle" class="btn btn-icon" title="Open Settings">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="3" />
+            <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z" />
+          </svg>
+        </button>
+      </div>
+    </header>
+
+    <!-- Main App Workspace -->
+    <main class="app-workspace">
+      
+      <!-- FFmpeg Required Banner (Floating Alert) -->
+      <div id="ffmpeg-alert-banner" class="alert-banner">
+        <div class="alert-content">
+          <svg class="alert-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z" />
+            <line x1="12" y1="9" x2="12" y2="13" />
+            <line x1="12" y1="17" x2="12.01" y2="17" />
+          </svg>
+          <div class="alert-text">
+            <h4>FFmpeg Executable Path Required</h4>
+            <p>FFmpeg is not in your system path. Please select your local <code>ffmpeg.exe</code> binary to enable video cutting.</p>
+          </div>
+        </div>
+        <button id="btn-configure-ffmpeg" class="btn btn-primary btn-sm">Configure Path</button>
+      </div>
+
+      <div class="workspace-grid">
+        
+        <!-- Left Panel: Input & Settings -->
+        <section class="workspace-panel panel-left">
+          
+          <!-- Section Title -->
+          <div class="panel-section-title">
+            <h3>Video Source</h3>
+          </div>
+
+          <!-- Drag and Drop Dropzone -->
+          <div id="dropzone" class="file-dropzone">
+            <input type="file" id="file-input" style="display: none;" accept="video/*">
+            <div class="dropzone-content">
+              <div class="dropzone-glow-ring"></div>
+              <svg class="dropzone-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+                <polyline points="17 8 12 3 7 8" />
+                <line x1="12" y1="3" x2="12" y2="15" />
+              </svg>
+              <h4>Drag & Drop Video Here</h4>
+              <p>Supports MP4, MKV, MOV, AVI, WEBM, and more</p>
+              <button id="btn-browse-file" class="btn btn-secondary btn-sm">Browse Files</button>
+            </div>
+          </div>
+
+          <!-- Video Details Card (Initially hidden) -->
+          <div id="video-details-card" class="glass-card video-info-card hidden">
+            <div class="video-card-header">
+              <div class="video-file-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <rect x="2" y="2" width="20" height="20" rx="2.18" ry="2.18" />
+                  <line x1="7" y1="2" x2="7" y2="22" />
+                  <line x1="17" y1="2" x2="17" y2="22" />
+                  <line x1="2" y1="12" x2="22" y2="12" />
+                  <line x1="2" y1="7" x2="7" y2="7" />
+                  <line x1="2" y1="17" x2="7" y2="17" />
+                  <line x1="17" y1="17" x2="22" y2="17" />
+                  <line x1="17" y1="7" x2="22" y2="7" />
+                </svg>
+              </div>
+              <div class="video-title-area">
+                <h4 id="video-filename" class="text-truncate">video_file_name.mp4</h4>
+                <span id="video-codec" class="badge badge-codec advanced-only">h264</span>
+              </div>
+              <button id="btn-remove-video" class="btn-close-card" title="Remove video">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <line x1="18" y1="6" x2="6" y2="18" /><line x1="6" y1="6" x2="18" y2="18" />
+                </svg>
+              </button>
+            </div>
+            <div class="video-meta-grid">
+              <div class="meta-item">
+                <span class="meta-label">File Size</span>
+                <span id="video-size" class="meta-value">0.00 MB</span>
+              </div>
+              <div class="meta-item">
+                <span class="meta-label">Duration</span>
+                <span id="video-duration" class="meta-value">00:00:00</span>
+              </div>
+              <div class="meta-item advanced-only">
+                <span class="meta-label">Avg Bitrate</span>
+                <span id="video-bitrate" class="meta-value">0 kbps</span>
+              </div>
+              <div class="meta-item advanced-only">
+                <span class="meta-label">Size/Minute</span>
+                <span id="video-size-per-min" class="meta-value">0.0 MB/min</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Section Title: Splitting Settings -->
+          <div class="panel-section-title mt-6">
+            <h3>Split Options</h3>
+          </div>
+
+          <!-- Config Controls -->
+          <div class="glass-card config-card">
+            <!-- Mode Toggle Tabs -->
+            <div class="tab-selectors">
+              <button id="tab-split-size" class="tab-btn active">
+                <svg class="tab-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M21.21 15.89A10 10 0 1 1 8 2.83" />
+                  <path d="M22 12A10 10 0 0 0 12 2v10z" />
+                </svg>
+                Split by Size
+              </button>
+              <button id="tab-split-time" class="tab-btn">
+                <svg class="tab-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <circle cx="12" cy="12" r="10" />
+                  <polyline points="12 6 12 12 16 14" />
+                </svg>
+                Split by Duration
+              </button>
+            </div>
+
+            <!-- Panel: Size Configuration -->
+            <div id="panel-size-config" class="config-panel-content">
+              <div class="control-group">
+                <div class="control-label-row">
+                  <label for="input-target-size">Target Segment Size</label>
+                  <div class="input-badge-container">
+                    <input type="number" id="input-target-size" value="80" min="1" max="10000">
+                    <span class="input-unit">MB</span>
+                  </div>
+                </div>
+                <div class="slider-row">
+                  <input type="range" id="slider-target-size" min="10" max="500" value="80" class="styled-slider">
+                  <div class="slider-ticks">
+                    <span>10M</span>
+                    <span>150M</span>
+                    <span>300M</span>
+                    <span>500M</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Panel: Duration Configuration (Initially Hidden) -->
+            <div id="panel-time-config" class="config-panel-content hidden">
+              <div class="control-group">
+                <div class="control-label-row">
+                  <label for="input-target-duration">Target Segment Duration</label>
+                  <div class="input-badge-container">
+                    <input type="number" id="input-target-duration" value="5" min="1" max="600">
+                    <span class="input-unit">Mins</span>
+                  </div>
+                </div>
+                <div class="slider-row">
+                  <input type="range" id="slider-target-duration" min="1" max="60" value="5" class="styled-slider">
+                  <div class="slider-ticks">
+                    <span>1 min</span>
+                    <span>15 min</span>
+                    <span>30 min</span>
+                    <span>60 min</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Output Directory Selector -->
+            <div class="control-group border-top mt-4 pt-4">
+              <label>Output Directory</label>
+              <div class="output-folder-row">
+                <input type="text" id="output-folder-path" class="folder-path-input text-truncate" placeholder="[Same folder as input video]" title="Custom folder path where segments will be saved">
+                <button id="btn-browse-folder" class="btn btn-secondary btn-sm" disabled>
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="btn-icon-svg">
+                    <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z" />
+                  </svg>
+                  Browse
+                </button>
+              </div>
+              <p class="folder-desc-text">We'll create a dedicated folder for your segments to keep things clean.</p>
+            </div>
+          </div>
+        </section>
+
+        <!-- Right Panel: Math Calculations, Map, Progress -->
+        <section class="workspace-panel panel-right">
+          
+          <div class="panel-section-title">
+            <h3>Segments Preview</h3>
+          </div>
+
+          <!-- Info State when no video loaded -->
+          <div id="blueprint-placeholder" class="blueprint-placeholder-card glass-card">
+            <img class="placeholder-logo-img" src="rss/image.png" alt="Scissa Logo">
+            <h4>Welcome to Scissa</h4>
+            <p class="placeholder-tagline">Your lightning-fast, lossless video splitter.</p>
+            
+            <div class="quick-start-guide">
+              <h5>🚀 Quick Start Guide</h5>
+              <div class="guide-steps">
+                <div class="guide-step">
+                  <span class="step-num">1</span>
+                  <div class="step-body">
+                    <h6>Load Your Video</h6>
+                    <p>Drag and drop a video file anywhere, or click <strong>Browse Files</strong> in the left panel.</p>
+                  </div>
+                </div>
+                <div class="guide-step">
+                  <span class="step-num">2</span>
+                  <div class="step-body">
+                    <h6>Configure Splitting</h6>
+                    <p>Choose between <strong>Split by Size</strong> (e.g. to fit Discord upload limits) or <strong>Split by Duration</strong>.</p>
+                  </div>
+                </div>
+                <div class="guide-step">
+                  <span class="step-num">3</span>
+                  <div class="step-body">
+                    <h6>Run Instant Splitting</h6>
+                    <p>Click <strong>Slice & Split Video</strong>. Scissa uses stream-copy (no re-encoding) for instant, lossless output.</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Video Blueprint Card (Calculations & Segment Map) -->
+          <div id="video-blueprint-card" class="blueprint-container hidden">
+            
+            <!-- Splitting Calculation Math Details -->
+            <div class="glass-card math-details-card advanced-only">
+              <div class="math-title">
+                <svg class="math-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M12 20h9M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4Z" />
+                </svg>
+                <h4>Segment Calculation Logic</h4>
+              </div>
+              
+              <div id="math-expression-box" class="math-expression">
+                <div class="math-row">
+                  <span class="label">Video Bitrate:</span>
+                  <span id="math-calc-bitrate" class="formula">380 MB / 32 mins = 11.9 MB/min</span>
+                </div>
+                <div class="math-row math-main-row">
+                  <span class="label">Slice Interval:</span>
+                  <span id="math-calc-interval" class="formula highlighted">80 MB / 11.9 MB/min = 6.7 minutes (404s)</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Segment Map -->
+            <div class="segment-map-header mt-4">
+              <h4>Estimated Segments</h4>
+              <span id="estimated-segments-count" class="badge badge-accent">5 Segments</span>
+            </div>
+
+            <div id="segment-map-grid" class="segment-map-grid">
+              <!-- Dynamically Populated with Segment Cards -->
+            </div>
+
+            <!-- Actions Panel -->
+            <div class="actions-card glass-card mt-6">
+              
+              <!-- Idle State: Ready to Start -->
+              <div id="execution-idle-state" class="execution-state-panel">
+                <div class="execution-info">
+                  <h5>Ready to go!</h5>
+                  <p>Your video will be cut into segments instantly with absolutely zero quality loss.</p>
+                </div>
+                <button id="btn-start-split" class="btn btn-action-pulse">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="btn-icon-svg">
+                    <circle cx="6" cy="6" r="3"></circle>
+                    <circle cx="6" cy="18" r="3"></circle>
+                    <line x1="9.8" y1="8.2" x2="21" y2="19"></line>
+                    <line x1="9.8" y1="15.8" x2="21" y2="5"></line>
+                  </svg>
+                  Slice & Split Video
+                </button>
+              </div>
+
+              <!-- Active State: Working -->
+              <div id="execution-active-state" class="execution-state-panel hidden">
+                <div class="progress-section">
+                  <div class="progress-details">
+                    <div class="progress-title-row">
+                      <h5 class="pulsing-text">Splitting Video File...</h5>
+                      <span id="progress-percent" class="progress-percent-val">0.0%</span>
+                    </div>
+                    <!-- Horizontal Progress Track -->
+                    <div class="progress-bar-container">
+                      <div id="progress-bar-fill" class="progress-bar-fill"></div>
+                    </div>
+                    <div class="progress-stats-row">
+                      <div class="progress-stat">
+                        <span class="stat-lbl">Processed</span>
+                        <span id="progress-elapsed-str" class="stat-val">00:00:00</span>
+                      </div>
+                      <div class="progress-stat text-right">
+                        <span class="stat-lbl">Total Length</span>
+                        <span id="progress-total-str" class="stat-val">00:32:15</span>
+                      </div>
+                    </div>
+                  </div>
+                  <button id="btn-cancel-split" class="btn btn-danger">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                      <rect x="3" y="3" width="18" height="18" rx="2" ry="2" />
+                    </svg>
+                    Cancel
+                  </button>
+                </div>
+              </div>
+
+            </div>
+
+          </div>
+
+        </section>
+
+      </div>
+
+      <!-- Collapsible Console Output Panel -->
+      <footer id="console-drawer" class="console-drawer collapsed">
+        <div id="btn-console-toggle" class="console-toggle-handle">
+          <div class="handle-title">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="console-icon">
+              <polyline points="4 17 10 11 4 5" />
+              <line x1="12" y1="19" x2="20" y2="19" />
+            </svg>
+            <span>FFmpeg Output Console Log</span>
+          </div>
+          <div class="handle-controls">
+            <button id="btn-clear-console" class="btn btn-icon btn-xs" title="Clear Logs" onclick="event.stopPropagation()">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M3 6h18m-2 0v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2" />
+              </svg>
+            </button>
+            <span class="chevron-icon"></span>
+          </div>
+        </div>
+        <div class="console-body">
+          <pre id="console-logs">Console initialized. Ready for operations...</pre>
+        </div>
+      </footer>
+
+    </main>
+
+    <!-- Settings Overlay Modal -->
+    <div id="settings-modal" class="modal-overlay hidden">
+      <div class="modal-card glass-card">
+        <div class="modal-header">
+          <h3>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="modal-header-icon">
+              <circle cx="12" cy="12" r="3" />
+              <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z" />
+            </svg>
+            Settings & Configurations
+          </h3>
+          <button id="btn-close-settings" class="btn btn-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <line x1="18" y1="6" x2="6" y2="18" /><line x1="6" y1="6" x2="18" y2="18" />
+            </svg>
+          </button>
+        </div>
+        <div class="modal-body">
+          <div class="form-group">
+            <label for="input-ffmpeg-path">FFmpeg Executable Path (ffmpeg.exe)</label>
+            <div class="path-input-row">
+              <input type="text" id="input-ffmpeg-path" placeholder="C:\path\to\ffmpeg.exe">
+              <button id="btn-browse-ffmpeg" class="btn btn-secondary">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="btn-icon-svg">
+                  <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z" />
+                </svg>
+                Browse
+              </button>
+            </div>
+            <p class="field-desc">The application will call this executable to fetch video info and perform segments extraction.</p>
+          </div>
+
+          <div class="form-group mt-4 pt-4 border-top">
+            <label for="input-default-output-path">Default Output Directory (Optional)</label>
+            <div class="path-input-row">
+              <input type="text" id="input-default-output-path" placeholder="e.g. C:\Users\Username\Videos">
+              <button id="btn-browse-default-output" class="btn btn-secondary">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="btn-icon-svg">
+                  <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z" />
+                </svg>
+                Browse
+              </button>
+            </div>
+            <p class="field-desc">If configured, Scissa will default to saving video segments here instead of the input video's folder.</p>
+          </div>
+
+          <div class="form-group mt-4 pt-4 border-top">
+            <label>Help & Support</label>
+            <div style="display: flex; gap: 10px;">
+              <button id="btn-replay-onboarding" class="btn btn-secondary btn-sm" style="flex: 1; display: flex; justify-content: center;">
+                Replay Welcome Wizard
+              </button>
+              <button id="btn-privacy-toggle" class="btn btn-secondary btn-sm" style="flex: 1; display: flex; justify-content: center;">
+                Privacy Policy
+              </button>
+            </div>
+            <button id="btn-donate" class="btn btn-primary btn-sm mt-2" style="width: 100%; display: flex; justify-content: center; gap: 8px; background: linear-gradient(135deg, #ff5e5b 0%, #e11d48 100%); border-color: transparent; box-shadow: 0 4px 14px rgba(255, 94, 91, 0.2);">
+              <svg viewBox="0 0 24 24" fill="currentColor" style="width: 14px; height: 14px; display: inline-block;">
+                <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+              </svg>
+              Support Scissa (Donate)
+            </button>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button id="btn-save-settings" class="btn btn-primary">Save Changes</button>
+        </div>
+      </div>
+    </div>
+
+  <!-- Onboarding Welcome Wizard Overlay Modal -->
+  <div id="onboarding-modal" class="modal-overlay hidden">
+    <div class="modal-card onboarding-card glass-card">
+      
+      <!-- Wizard Step 1: Welcome -->
+      <div id="onboarding-step-1" class="onboarding-step-content">
+        <img class="onboarding-logo-img" src="rss/image.png" alt="Scissa Logo">
+        <h3>Welcome to Scissa</h3>
+        <p class="onboarding-subtitle">Your lightning-fast, lossless video splitter.</p>
+        
+        <div class="onboarding-features">
+          <div class="feature-item">
+            <span class="feature-icon">⚡</span>
+            <div class="feature-text">
+              <h6>Instant Splitting</h6>
+              <p>Scissa uses rapid stream-copy technology to slice videos in under 5 seconds without quality loss.</p>
+            </div>
+          </div>
+          <div class="feature-item">
+            <span class="feature-icon">🎯</span>
+            <div class="feature-text">
+              <h6>Smart Math Engine</h6>
+              <p>Just specify your target file size (e.g., to fit Discord limits) or duration, and we'll calculate the perfect slices.</p>
+            </div>
+          </div>
+        </div>
+        
+        <div class="onboarding-footer">
+          <div class="step-dots">
+            <span class="dot active"></span>
+            <span class="dot"></span>
+            <span class="dot"></span>
+          </div>
+          <button id="btn-onboarding-next-1" class="btn btn-primary">Get Started &rarr;</button>
+        </div>
+      </div>
+      
+      <!-- Wizard Step 2: Configure FFmpeg -->
+      <div id="onboarding-step-2" class="onboarding-step-content hidden">
+        <div class="onboarding-header">
+          <h3>Set Up FFmpeg</h3>
+          <p class="onboarding-subtitle">Scissa requires FFmpeg to perform lightning-fast video slicing.</p>
+        </div>
+        
+        <div class="onboarding-setup-box">
+          <div class="ffmpeg-guide-text">
+            <p>If you don't have FFmpeg, you can download it from <a href="https://ffmpeg.org" target="_blank" onclick="event.stopPropagation()">ffmpeg.org</a>. Once downloaded, select the <code>ffmpeg.exe</code> binary file below.</p>
+          </div>
+          
+          <div class="form-group mt-4" style="text-align: left;">
+            <label for="input-onboarding-ffmpeg-path" style="font-size: 0.8rem; font-weight: 600; color: var(--text-secondary); display: block; margin-bottom: 8px;">FFmpeg Executable Path (ffmpeg.exe)</label>
+            <div class="path-input-row">
+              <input type="text" id="input-onboarding-ffmpeg-path" placeholder="C:\path\to\ffmpeg.exe" style="flex: 1; background: rgba(255, 255, 255, 0.9); border: 1px solid rgba(0, 0, 0, 0.08); padding: 8px 12px; border-radius: 8px; color: var(--text-primary); font-family: var(--font-mono); font-size: 0.78rem;">
+              <button id="btn-onboarding-browse-ffmpeg" class="btn btn-secondary btn-sm" style="padding: 0 !important; width: 85px; height: 36px; display: flex; align-items: center; justify-content: center; gap: 6px;">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="btn-icon-svg" style="width: 14px; height: 14px;">
+                  <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z" />
+                </svg>
+                Browse
+              </button>
+            </div>
+            <p id="onboarding-ffmpeg-status-text" class="field-desc mt-2" style="font-size: 0.72rem; color: var(--text-muted); margin-top: 8px;">Checking FFmpeg configuration status...</p>
+          </div>
+        </div>
+        
+        <div class="onboarding-footer mt-6">
+          <button id="btn-onboarding-back-2" class="btn btn-secondary">&larr; Back</button>
+          <div class="step-dots">
+            <span class="dot"></span>
+            <span class="dot active"></span>
+            <span class="dot"></span>
+          </div>
+          <button id="btn-onboarding-next-2" class="btn btn-primary">Next &rarr;</button>
+        </div>
+      </div>
+      
+      <!-- Wizard Step 3: Guide/Ready -->
+      <div id="onboarding-step-3" class="onboarding-step-content hidden">
+        <div class="onboarding-header">
+          <h3>Ready to Slice!</h3>
+          <p class="onboarding-subtitle">Here is a quick overview of how Scissa works.</p>
+        </div>
+        
+        <div class="onboarding-instruction-grid">
+          <div class="instruction-row">
+            <span class="ins-num">1</span>
+            <p><strong>Load Your Video:</strong> Drag & drop your video file anywhere onto the left panel.</p>
+          </div>
+          <div class="instruction-row">
+            <span class="ins-num">2</span>
+            <p><strong>Set Configurations:</strong> Choose to split by target segment file size (MB) or target duration (minutes).</p>
+          </div>
+          <div class="instruction-row">
+            <span class="ins-num">3</span>
+            <p><strong>Split Instantly:</strong> Click the "Slice & Split" button and watch Scissa create your segments losslessly in seconds!</p>
+          </div>
+        </div>
+        
+        <div class="onboarding-footer mt-6">
+          <button id="btn-onboarding-back-3" class="btn btn-secondary">&larr; Back</button>
+          <div class="step-dots">
+            <span class="dot"></span>
+            <span class="dot"></span>
+            <span class="dot active"></span>
+          </div>
+          <button id="btn-onboarding-finish" class="btn btn-primary">Launch Scissa! 🚀</button>
+        </div>
+      </div>
+      
+    </div>
+  </div>
+
+  <!-- Privacy Policy Modal -->
+  <div id="privacy-modal" class="modal-overlay hidden">
+    <div class="modal-card glass-card" style="width: 500px;">
+      <div class="modal-header">
+        <h3>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="modal-header-icon" style="width: 20px; height: 20px;">
+            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+          </svg>
+          Privacy Policy
+        </h3>
+        <button id="btn-close-privacy" class="btn btn-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <line x1="18" y1="6" x2="6" y2="18" /><line x1="6" y1="6" x2="18" y2="18" />
+          </svg>
+        </button>
+      </div>
+      <div class="modal-body" style="font-size: 0.8rem; line-height: 1.5; color: var(--text-secondary); max-height: 350px; overflow-y: auto; padding-right: 8px;">
+        <p style="margin-bottom: 12px; font-weight: 600; color: var(--text-primary);">Effective Date: May 25, 2026</p>
+        <p style="margin-bottom: 12px;">Scissa built the Scissa app as a commercial/utility desktop application. This service is provided by Scissa and is intended for use as is.</p>
+        <h4 style="color: var(--text-primary); margin-top: 16px; margin-bottom: 6px; font-weight: 600;">1. Information Collection & Use</h4>
+        <p style="margin-bottom: 12px;">Scissa operates entirely locally on your device. We **do not** collect, store, transmit, or share any personal data, video files, metadata, or path settings with any remote servers or third parties. All video processing (probing and splitting) is executed offline on your local CPU using FFmpeg.</p>
+        <h4 style="color: var(--text-primary); margin-top: 16px; margin-bottom: 6px; font-weight: 600;">2. Cookies & Local Storage</h4>
+        <p style="margin-bottom: 12px;">This application uses local device configurations (JSON settings files and HTML5 local storage) strictly to persist your preferences, such as your FFmpeg binary path, default output folders, and whether Advanced Mode is enabled. None of this information is transmitted online.</p>
+        <h4 style="color: var(--text-primary); margin-top: 16px; margin-bottom: 6px; font-weight: 600;">3. Third-Party Services</h4>
+        <p style="margin-bottom: 12px;">We do not integrate any third-party analytics, advertisements, tracking SDKs, or cloud storage systems. The app runs completely sandboxed and offline.</p>
+        <h4 style="color: var(--text-primary); margin-top: 16px; margin-bottom: 6px; font-weight: 600;">4. Changes to This Policy</h4>
+        <p style="margin-bottom: 12px;">We may update our Privacy Policy from time to time. You are advised to review this policy periodically for any changes.</p>
+      </div>
+      <div class="modal-footer">
+        <button id="btn-agree-privacy" class="btn btn-primary">Close</button>
+      </div>
+    </div>
+  </div>
+  <!-- Success / Completion Modal -->
+  <div id="success-modal" class="modal-overlay hidden">
+    <div class="modal-card glass-card success-modal-card">
+      <div class="success-animation-container">
+        <div class="success-checkmark-ring">
+          <svg class="success-checkmark-svg" viewBox="0 0 52 52">
+            <circle class="success-circle" cx="26" cy="26" r="24" fill="none"/>
+            <path class="success-check" fill="none" d="M14 27l7 7 16-16"/>
+          </svg>
+        </div>
+      </div>
+      <h3 class="success-title">Splitting Complete!</h3>
+      <p class="success-subtitle" id="success-message">Your video has been split successfully.</p>
+      <div class="success-output-path" id="success-output-path-display">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="success-folder-icon">
+          <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z" />
+        </svg>
+        <span id="success-output-folder" class="text-truncate">output/folder/path</span>
+      </div>
+      <div class="success-actions">
+        <button id="btn-success-open-folder" class="btn btn-primary">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="btn-icon-svg">
+            <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" />
+            <polyline points="15 3 21 3 21 9" />
+            <line x1="10" y1="14" x2="21" y2="3" />
+          </svg>
+          Open Folder
+        </button>
+        <button id="btn-success-close" class="btn btn-secondary">Done</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Floating Heart Donation Widget -->
+  <div class="donate-float-widget" id="btn-donate-float">
+    <span class="donate-float-label">Support Scissa ❤️</span>
+    <button class="donate-float-btn" title="Support Scissa">
+      <svg viewBox="0 0 24 24" fill="currentColor">
+        <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+      </svg>
+    </button>
+  </div>
+
+  <script src="renderer.js"></script>
+</body>
+</html>
