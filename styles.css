@@ -960,6 +960,103 @@ body {
   padding-top: 6px;
 }
 
+.segment-map-title-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+/* Layout Toggle styling */
+.layout-toggle-container {
+  display: flex;
+  background: rgba(0, 0, 0, 0.025);
+  border-radius: 8px;
+  padding: 2px;
+  border: 1px solid rgba(0, 0, 0, 0.04);
+}
+
+.layout-toggle-btn {
+  background: transparent;
+  border: none;
+  color: var(--text-muted);
+  width: 28px;
+  height: 28px;
+  border-radius: 6px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: var(--transition-fast);
+}
+
+.layout-toggle-btn:hover {
+  color: var(--text-primary);
+  background: rgba(0, 0, 0, 0.02);
+}
+
+.layout-toggle-btn.active {
+  background: #ffffff;
+  color: var(--brand-solid);
+  box-shadow: 0 2px 8px rgba(255, 94, 91, 0.1);
+  border: 1px solid rgba(255, 94, 91, 0.08);
+}
+
+/* Compact List View overrides */
+.segment-map-grid.list-view {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.segment-map-grid.list-view .segment-blueprint-card {
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 16px;
+  border-radius: 12px;
+  gap: 12px;
+}
+
+.segment-map-grid.list-view .segment-blueprint-card:hover {
+  transform: translateX(3px);
+}
+
+.segment-map-grid.list-view .segment-num-row {
+  flex-direction: row;
+  align-items: center;
+  gap: 10px;
+  margin: 0;
+  min-width: 150px;
+}
+
+.segment-map-grid.list-view .segment-sz {
+  font-size: 0.95rem;
+  margin: 0;
+  font-weight: 700;
+  color: var(--text-primary);
+  min-width: 75px;
+  text-align: right;
+}
+
+.segment-map-grid.list-view .segment-dur {
+  font-size: 0.78rem;
+  margin: 0;
+  color: var(--text-secondary);
+  min-width: 65px;
+  text-align: right;
+}
+
+.segment-map-grid.list-view .segment-timeframe {
+  border: none;
+  margin: 0;
+  padding: 0;
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  min-width: 150px;
+  text-align: right;
+}
+
 /* Actions / Execution Panel styling */
 .actions-card {
   padding: 16px 20px;

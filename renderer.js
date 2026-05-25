@@ -11,7 +11,9 @@ let appState = {
   targetSizeMB: 80,
   targetDurationMins: 5,
   isSplitting: false,
-  advancedMode: localStorage.getItem('scissaAdvancedMode') === 'true'
+  advancedMode: localStorage.getItem('scissaAdvancedMode') === 'true',
+  layoutMode: 'grid', // 'grid' or 'list'
+  userSelectedLayout: false
 };
 
 // ==========================================================================
@@ -68,6 +70,8 @@ const elements = {
   mathCalcInterval: document.getElementById('math-calc-interval'),
   estimatedSegmentsCount: document.getElementById('estimated-segments-count'),
   segmentMapGrid: document.getElementById('segment-map-grid'),
+  btnLayoutGrid: document.getElementById('btn-layout-grid'),
+  btnLayoutList: document.getElementById('btn-layout-list'),
 
   // Splitting Controls & Progress
   executionIdleState: document.getElementById('execution-idle-state'),
@@ -432,6 +436,18 @@ function setupEventListeners() {
   document.getElementById('btn-donate-float').addEventListener('click', () => {
     window.api.openLink('https://ko-fi.com/atlastdev');
   });
+
+  // Layout Toggle Listeners
+  elements.btnLayoutGrid.addEventListener('click', () => {
+    appState.layoutMode = 'grid';
+    appState.userSelectedLayout = true;
+    updateLayoutUI();
+  });
+  elements.btnLayoutList.addEventListener('click', () => {
+    appState.layoutMode = 'list';
+    appState.userSelectedLayout = true;
+    updateLayoutUI();
+  });
 }
 
 // ==========================================================================
@@ -566,6 +582,17 @@ function generateSegmentCards(totalDurationSec, segmentTimeSec, segmentSizeMB) {
 
   const numSegments = Math.ceil(totalDurationSec / segmentTimeSec);
   elements.estimatedSegmentsCount.textContent = `${numSegments} Segment${numSegments > 1 ? 's' : ''}`;
+
+  // Auto-switch to list layout if there are more than 6 segments
+  // and the user hasn't explicitly clicked a layout preference yet.
+  if (!appState.userSelectedLayout) {
+    if (numSegments > 6) {
+      appState.layoutMode = 'list';
+    } else {
+      appState.layoutMode = 'grid';
+    }
+  }
+  updateLayoutUI();
   
   for (let i = 0; i < numSegments; i++) {
     const startTimeSec = i * segmentTimeSec;
@@ -787,5 +814,17 @@ function updateAdvancedModeUI() {
     } else {
       consoleDrawer.classList.add('hidden');
     }
+  }
+}
+
+function updateLayoutUI() {
+  if (appState.layoutMode === 'list') {
+    elements.segmentMapGrid.classList.add('list-view');
+    elements.btnLayoutList.classList.add('active');
+    elements.btnLayoutGrid.classList.remove('active');
+  } else {
+    elements.segmentMapGrid.classList.remove('list-view');
+    elements.btnLayoutGrid.classList.add('active');
+    elements.btnLayoutList.classList.remove('active');
   }
 }

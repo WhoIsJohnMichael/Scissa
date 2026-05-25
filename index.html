@@ -288,8 +288,32 @@
 
             <!-- Segment Map -->
             <div class="segment-map-header mt-4">
-              <h4>Estimated Segments</h4>
-              <span id="estimated-segments-count" class="badge badge-accent">5 Segments</span>
+              <div class="segment-map-title-row">
+                <h4>Estimated Segments</h4>
+                <span id="estimated-segments-count" class="badge badge-accent">5 Segments</span>
+              </div>
+              
+              <!-- Compact/Grid Layout Toggle Buttons -->
+              <div class="layout-toggle-container">
+                <button id="btn-layout-grid" class="layout-toggle-btn active" title="Grid View">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" style="width: 14px; height: 14px;">
+                    <rect x="3" y="3" width="7" height="7" rx="1" />
+                    <rect x="14" y="3" width="7" height="7" rx="1" />
+                    <rect x="14" y="14" width="7" height="7" rx="1" />
+                    <rect x="3" y="14" width="7" height="7" rx="1" />
+                  </svg>
+                </button>
+                <button id="btn-layout-list" class="layout-toggle-btn" title="Compact List View">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" style="width: 14px; height: 14px;">
+                    <line x1="8" y1="6" x2="21" y2="6" />
+                    <line x1="8" y1="12" x2="21" y2="12" />
+                    <line x1="8" y1="18" x2="21" y2="18" />
+                    <line x1="3" y1="6" x2="3.01" y2="6" stroke-linecap="round" />
+                    <line x1="3" y1="12" x2="3.01" y2="12" stroke-linecap="round" />
+                    <line x1="3" y1="18" x2="3.01" y2="18" stroke-linecap="round" />
+                  </svg>
+                </button>
+              </div>
             </div>
 
             <div id="segment-map-grid" class="segment-map-grid">
